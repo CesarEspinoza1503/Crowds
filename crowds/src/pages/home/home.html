@@ -1,0 +1,65 @@
+<ion-header>
+  <ion-navbar>
+    <ion-title>
+      Ionic Blank
+    </ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content padding>
+    <div *ngIf="afAuth.authState | async as user; else showLogin">
+      
+      <h1>Hello {{ user.displayName }}!</h1>
+        <button ion-button color="primary" full (click)="logout()">Logout</button>
+        
+        <ion-searchbar (ionInput)="getItems($event)"></ion-searchbar>
+        <ion-list>
+          <ion-item *ngFor="let users of usuariolist | async">
+            {{ users.displayName }}
+          </ion-item>
+        </ion-list>
+
+
+        <ion-list>
+            <ion-item *ngFor="let post of messageList | async">
+                <ion-card>
+                    <ion-card-header></ion-card-header>
+                    <ion-card-content >
+                        <div (click)="showOptions(post.id, post.message)">{{post.message}}
+                        </div>
+                        <p>
+                          <button ion-button icon-end  (click)=updateLikes(post.id,post.likes)>
+                              <ion-icon name="thumbs-up" >Likes: {{post.likes}}</ion-icon>
+                          </button>
+                          <button ion-button icon-end (click)=updateDislikes(post.id,post.dislikes)>
+                              <ion-icon name="thumbs-down"  >Dislikes: {{post.dislikes}}</ion-icon>
+                          </button>
+
+                          <ion-img width="60" height="60" src="users.photoURL"></ion-img>
+                        </p>
+                    </ion-card-content>
+                  </ion-card>
+
+            </ion-item>
+          </ion-list>
+        <ion-fab right bottom>
+          <button ion-fab  (click)="addMessage()">
+            <ion-icon name="add" ></ion-icon>
+          </button>
+        </ion-fab>
+
+    </div>
+
+
+
+<ng-template #showLogin>
+        <p>Please login.</p>
+        <button ion-button color="danger"  full (click)="login()" icon-right>
+          <ion-icon name="logo-googleplus"></ion-icon>
+          Login with Google
+        </button>
+      </ng-template>
+
+</ion-content>
+
+
